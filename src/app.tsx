@@ -9,6 +9,8 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import {routerMiddleware, routerReducer} from "react-router-redux";
 import {Provider} from "react-redux";
 
+import {RealTimeBoard} from "./components/RealTimeBoard";
+
 const history = createHistory();
 const middleware = routerMiddleware(history as any);
 
@@ -28,7 +30,7 @@ export class App extends React.Component<IAppProperties, IAppState> {
         return <Provider store={store}>
             <Router>
                 <div>
-                    <h1>Real Time Board</h1>
+                    <RealTimeBoard />
                 </div>
             </Router>
         </Provider>;
