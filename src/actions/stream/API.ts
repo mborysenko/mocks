@@ -2,7 +2,7 @@ import {IAsset} from "../../api/mock";
 import {Action} from "redux";
 
 export interface IAssetAction extends Action {
-    asset: IAsset;
+    assets?: Array<IAsset>;
 }
 
 export interface IAssetMap {

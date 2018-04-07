@@ -19,6 +19,7 @@ const createAsset = (assetId: number, assetType: string): IAsset => {
     }
 };
 
+export let limit = 50;
 const getAllAssets = (n): Array<IAsset> => {
     const result: Array<IAsset> = [];
     for (let i = 0; i < n; i++) {
@@ -28,9 +29,9 @@ const getAllAssets = (n): Array<IAsset> => {
     return result;
 };
 
-const assets: Array<IAsset> = getAllAssets(100);
+const assets: Array<IAsset> = getAllAssets(limit/2);
 
-const timeObservable = Rx.Observable.interval(3000);
+const timeObservable = Rx.Observable.interval(1000);
 
 
 export const mock: Observable<IAsset> = Observable.create((observer) => {

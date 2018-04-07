@@ -1,27 +1,39 @@
 import {Action} from "redux";
 import {ThunkAction} from "redux-thunk";
-import {mock, IAsset} from "../../api/mock";
+import {IAsset, limit, mock} from "../../api/mock";
 import * as Actions from "./constants";
 
-export function assetArrived(asset: IAsset): Action & { asset: any } {
+export function assetBurstArrived(assets: Array<IAsset>): Action & { assets: Array<IAsset> } {
     return {
-        type: Actions.ASSET_ARRIVED_ACTION,
-        asset
+        type: Actions.ASSET_BURST_ARRIVED_ACTION,
+        assets
     };
 }
-export function streamStart(): ThunkAction<any, any, {}>{
-    return function(dispatch, getState, extraArgument){
-        function scheduleAction(a) {
-            dispatch(assetArrived(a))
-        }
 
-        function delay() {
+export function streamStart(): ThunkAction<any, any, {}> {
+    return function (dispatch) {
+        // mock
+        //     .scan((acc, v) => {
+        //         return [...acc, v];
+        //     }, [])
+        //     .subscribe((v: IAsset[]) => {
+        //         if (v.length == limit) {
+        //             debugger;
+        //             dispatch(assetBurstArrived(v));
+        //         }
+        //     });
 
-        }
+        let burst: Array<IAsset> = [];
 
-        mock.subscribe((v: IAsset) => {
-            console.log(v);
-            dispatch(assetArrived(v))
-        })
+        mock
+            .subscribe((v: IAsset) => {
+                if (burst.length == limit) {
+                    dispatch(assetBurstArrived(burst));
+                    burst = [];
+                }
+                else {
+                    burst.push(v);
+                }
+            })
     }
 }
