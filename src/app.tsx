@@ -3,20 +3,11 @@ import * as React from "react";
 import "styles";
 /* React Router stuff */
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import createHistory from "history/createBrowserHistory";
 /* Redux stuff */
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import {routerMiddleware, routerReducer} from "react-router-redux";
 import {Provider} from "react-redux";
 
 import {RealTimeBoard} from "./components/RealTimeBoard";
-
-const history = createHistory();
-const middleware = routerMiddleware(history as any);
-
-const store = createStore(combineReducers({
-    routing: routerReducer
-}), applyMiddleware(middleware));
+import configureStore from "./store/configureStore";
 
 export interface IAppProperties {
 }
@@ -27,7 +18,7 @@ export interface IAppState {
 
 export class App extends React.Component<IAppProperties, IAppState> {
     public render(): JSX.Element {
-        return <Provider store={store}>
+        return <Provider store={configureStore({})}>
             <Router>
                 <div>
                     <RealTimeBoard />
