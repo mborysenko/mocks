@@ -50,6 +50,7 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
     }
 
     public render(): JSX.Element {
+        let def = this.state.gridDefinition;
         return <div>
             <h1>Real Time Board</h1>
             <button onClick={this.start} disabled={this.state.started}>Start</button>
@@ -58,8 +59,8 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
 
             </div>
             <Grid>
-                <GridHead definition={this.state.gridDefinition} />
-                <GridBody items={this.props.assets} definition={this.state.gridDefinition} />
+                <GridHead definition={def} />
+                <GridBody items={this.props.assets} definition={def} />
             </Grid>
         </div>;
     }
