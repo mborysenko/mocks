@@ -39,7 +39,7 @@ export function streamStart(): ThunkAction<any, any, {}> {
                 }
             });
 
-        // No matter how many updates happend
+        // No matter how many updates has happen during last
         let render = Rx.Observable.interval(1000);
         render.subscribe(() => {
             dispatch(assetBurstArrived(burst));

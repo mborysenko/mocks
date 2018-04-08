@@ -31,7 +31,7 @@ const getAllAssets = (n): Array<IAsset> => {
 
 const assets: Array<IAsset> = getAllAssets(limit/2);
 
-const timeObservable = Rx.Observable.interval(1000);
+const timeObservable = Rx.Observable.interval(500);
 
 
 export const mock: Observable<IAsset> = Observable.create((observer) => {
