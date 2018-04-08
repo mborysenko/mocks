@@ -19,7 +19,7 @@ const createAsset = (assetId: number, assetType: string): IAsset => {
     }
 };
 
-export let limit = 50;
+export let limit = 200;
 const getAllAssets = (n): Array<IAsset> => {
     const result: Array<IAsset> = [];
     for (let i = 0; i < n; i++) {
@@ -47,3 +47,5 @@ export const mock: Observable<IAsset> = Observable.create((observer) => {
     });
     return () => null; // we don't care about unsubscribe just for a test
 });
+
+//setTimeout(() => { observer.next(val) }, 100)
