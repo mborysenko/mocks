@@ -1,13 +1,19 @@
 import * as React from "react";
+import {GridHead} from "./GridHead";
+import {GridBody} from "./GridBody";
 
 export interface IGridProps {
-    items?: Array<any>,
+    data?: Array<any>,
+    definition: any;
     children?: any;
 }
 
 export class Grid extends React.Component<IGridProps, {}>{
     render(): JSX.Element {
-        return <table className="grid">{this.props.children}</table>;
+        return <table className="grid">
+            <GridHead definition={this.props.definition} />
+            <GridBody items={this.props.data} definition={this.props.definition} />
+        </table>;
     }
 
 }

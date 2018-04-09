@@ -4,8 +4,6 @@ import {bindActionCreators} from "redux";
 import {IAsset} from "../../api/mock";
 import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
-import {GridHead} from "../Grid/GridHead";
-import {GridBody} from "../Grid/GridBody";
 
 export interface IRealTimeProps {
     actions?: any;
@@ -55,13 +53,7 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
             <h1>Real Time Board</h1>
             <button onClick={this.start} disabled={this.state.started}>Start</button>
             <div>Number of assets shown: {this.props.assets.length}</div>
-            <div className="sorting-panel __stick_to_right">
-
-            </div>
-            <Grid>
-                <GridHead definition={def} />
-                <GridBody items={this.props.assets} definition={def} />
-            </Grid>
+            <Grid definition={this.state.gridDefinition} data={this.props.assets} />
         </div>;
     }
 }
