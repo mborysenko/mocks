@@ -15,7 +15,7 @@ export class GridBody extends React.Component<IGridBodydProps, {}> {
         {this.props.items.sort((a, b) => {
             return (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0;
         }).map((a: IAsset) => {
-            return <GridRow definition={this.props.definition} data={a} />;
+            return <GridRow key={a.assetName + a.id + ""} definition={this.props.definition} data={a} />;
         })}
         </tbody>;
     }

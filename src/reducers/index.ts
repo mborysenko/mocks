@@ -1,9 +1,8 @@
 import {combineReducers} from 'redux';
 import assets from "./streamReducer";
-import {routerReducer} from "react-router-redux";
-
+import sorting from "./sortingReducer";
 
 export default combineReducers({
     assets,
-    routing: routerReducer
+    sorting
 })

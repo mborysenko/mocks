@@ -9,6 +9,12 @@ export interface IGridProps {
 }
 
 export class Grid extends React.Component<IGridProps, {}>{
+    constructor(props, state) {
+        super(props, state);
+
+
+    }
+
     render(): JSX.Element {
         return <table className="grid">
             <GridHead definition={this.props.definition} />

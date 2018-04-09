@@ -4,6 +4,7 @@ import {bindActionCreators} from "redux";
 import {IAsset} from "../../api/mock";
 import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
+import {IAppGlobalState} from "../../reducers/initialState";
 
 export interface IRealTimeProps {
     actions?: any;
@@ -64,7 +65,7 @@ function mapDispatchToProps(dispatch): IRealTimeProps {
     };
 }
 
-function mapStateToProps(state: any, props: IRealTimeProps): IRealTimeProps {
+function mapStateToProps(state: IAppGlobalState, props: IRealTimeProps): IRealTimeProps {
     return {
         assets: state.assets
     };
