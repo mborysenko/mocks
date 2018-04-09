@@ -5,16 +5,19 @@ import {IAsset} from "../../api/mock";
 import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
 import {IAppGlobalState} from "../../reducers/initialState";
+import {ISortOptions} from "../../actions/sorting";
 
 export interface IRealTimeProps {
     actions?: any;
     assets?: Array<IAsset>;
     started?: boolean;
+    sorting?: ISortOptions;
 }
 
 export interface IRealTimeState {
     started?: boolean;
     gridDefinition?: any;
+    sorting?: ISortOptions;
 }
 
 class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealTimeState> {
@@ -23,7 +26,8 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
 
         this.start = this.start.bind(this);
         this.state = {
-            started: false
+            started: false,
+            sorting: this.props.sorting,
         }
     }
 
@@ -45,7 +49,6 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
     start() {
         this.props.actions.streamStart();
         this.setState({started: true});
-
     }
 
     public render(): JSX.Element {
@@ -66,8 +69,10 @@ function mapDispatchToProps(dispatch): IRealTimeProps {
 }
 
 function mapStateToProps(state: IAppGlobalState, props: IRealTimeProps): IRealTimeProps {
+    console.log("SORTING RECEIVED", state.sorting);
     return {
-        assets: state.assets
+        assets: state.assets,
+        sorting: state.sorting
     };
 }
 
