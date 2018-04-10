@@ -2,8 +2,7 @@ import * as React from "react";
 import initialState from "./reducers/initialState";
 
 import "styles.less";
-/* React Router stuff */
-import {BrowserRouter as Router, Route} from "react-router-dom";
+
 /* Redux stuff */
 import {Provider} from "react-redux";
 

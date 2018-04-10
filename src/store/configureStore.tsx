@@ -2,10 +2,6 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import rootReducer from '../reducers/index';
 import thunk from "redux-thunk";
 
-import {routerMiddleware, routerReducer} from "react-router-redux";
-import createHistory from "history/createBrowserHistory";
-
-const history = createHistory();
 declare const module: { hot: any };
 
 export default function configureStore(initialState: any){
@@ -14,7 +10,6 @@ export default function configureStore(initialState: any){
         initialState,
         applyMiddleware(
             thunk,
-            routerMiddleware(history as any)
         )
         );
 
