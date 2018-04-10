@@ -47,5 +47,3 @@ export const mock: Observable<IAsset> = Observable.create((observer) => {
     });
     return () => null; // we don't care about unsubscribe just for a test
 });
-
-//setTimeout(() => { observer.next(val) }, 100)

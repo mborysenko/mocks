@@ -1,9 +1,15 @@
 import {Action} from "redux";
 import {SORT_ACTION} from "./constants";
+import {ISortFieldType, ISortingDirection} from "./API";
+
+export interface ISortFieldOption {
+    name: string;
+    type?: ISortFieldType;
+}
 
 export interface ISortOptions {
-    field: string,
-    direction: string
+    field: ISortFieldOption,
+    direction: ISortingDirection
 }
 
 export interface ISortAction extends Action {

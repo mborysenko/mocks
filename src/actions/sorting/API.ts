@@ -1,10 +1,9 @@
-import {IAsset} from "../../api/mock";
-import {Action} from "redux";
-
-export interface IAssetAction extends Action {
-    assets?: Array<IAsset>;
+export enum ISortFieldType {
+    STRING = "string",
+    NUMERIC = "numeric",
 }
 
-export interface IAssetMap {
-    [id:string]: IAsset
+export enum ISortingDirection {
+    ASCENDING = "ASC",
+    DESCENDING = "DESC",
 }

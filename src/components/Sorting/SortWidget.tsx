@@ -4,18 +4,21 @@ import {bindActionCreators} from "redux";
 
 import {IAppGlobalState} from "../../reducers/initialState";
 import * as SortActions from "../../actions/sorting/actions";
-import {ISortOptions, SORTING_DIRECTION_ASC, SORTING_DIRECTION_DESC} from "../../actions/sorting";
+import {
+    ISortFieldOption, ISortingDirection, ISortOptions, SORTING_DIRECTION_ASC,
+    SORTING_DIRECTION_DESC
+} from "../../actions/sorting";
 
 export interface ISortWidgetProps {
     children?: any,
-    field?: string,
-    direction?: string,
+    field?: ISortFieldOption,
+    direction?: ISortingDirection,
     actions?: any,
 }
 
 export interface ISortWidgetState {
     sorting?: ISortOptions,
-    currentDirection?: string;
+    currentDirection?: ISortingDirection;
 }
 
 export class SortWidget extends React.Component<ISortWidgetProps, ISortWidgetState>{
@@ -24,7 +27,7 @@ export class SortWidget extends React.Component<ISortWidgetProps, ISortWidgetSta
         let {field, direction} = props;
         this.state = {
             sorting: {
-                direction: direction ? direction : SORTING_DIRECTION_ASC,
+                direction: direction ? direction : ISortingDirection.ASCENDING,
                 field
             },
             currentDirection: null
@@ -33,19 +36,19 @@ export class SortWidget extends React.Component<ISortWidgetProps, ISortWidgetSta
         this.sort = this.sort.bind(this);
     }
 
-    _toggleSortingDirection(dir: string): string {
-        if(dir === SORTING_DIRECTION_ASC) {
-            return SORTING_DIRECTION_DESC
+    _toggleSortingDirection(dir: ISortingDirection): ISortingDirection {
+        if(dir === ISortingDirection.ASCENDING) {
+            return ISortingDirection.DESCENDING
         }
-        if(dir === SORTING_DIRECTION_DESC) {
-            return SORTING_DIRECTION_ASC
+        if(dir === ISortingDirection.DESCENDING) {
+            return ISortingDirection.ASCENDING
         }
     }
 
     _getCurrentSorting(): ISortOptions {
         let { field, direction } = this.state.sorting;
         let { currentDirection } = this.state;
-        let newDir = (currentDirection === null ||currentDirection !== direction) ? direction : this._toggleSortingDirection(direction);
+        let newDir: ISortingDirection = (currentDirection === null ||currentDirection !== direction) ? direction : this._toggleSortingDirection(direction);
 
         this.setState({
             currentDirection: newDir

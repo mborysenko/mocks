@@ -1,4 +1,4 @@
-import { ISortOptions, SORTING_DIRECTION_ASC} from "../actions/sorting";
+import {ISortFieldType, ISortingDirection, ISortOptions, SORTING_DIRECTION_ASC} from "../actions/sorting";
 import {IAsset} from "../api/mock";
 
 export interface IAppGlobalState {
@@ -9,8 +9,11 @@ export interface IAppGlobalState {
 const initial: IAppGlobalState =  {
     assets: [],
     sorting: {
-        field: "id",
-        direction: SORTING_DIRECTION_ASC
+        field: {
+            name: "id",
+            type: ISortFieldType.NUMERIC
+        },
+        direction: ISortingDirection.ASCENDING
     }
 };
 

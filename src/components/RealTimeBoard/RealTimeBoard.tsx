@@ -5,7 +5,7 @@ import {IAsset} from "../../api/mock";
 import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
 import {IAppGlobalState} from "../../reducers/initialState";
-import {ISortOptions} from "../../actions/sorting";
+import {ISortFieldType, ISortOptions} from "../../actions/sorting";
 
 export interface IRealTimeProps {
     actions?: any;
@@ -33,11 +33,26 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
 
     private _getTableDefinition(a: IAsset): any {
         return [
-            ["id", "Asset ID"],
-            ["assetName", "Name"],
-            ["price", "Price, USD"],
-            ["lastUpdate", "Last Updated", (val) => { return new Date(val).toLocaleString()}],
-            ["type", "Type"]
+            [{
+                name: "id",
+                type: ISortFieldType.NUMERIC
+            }, "Asset ID"],
+            [{
+                name: "assetName",
+                type: ISortFieldType.STRING
+            }, "Name"],
+            [{
+                name: "price",
+                type: ISortFieldType.NUMERIC
+            }, "Price, USD"],
+            [{
+                name: "lastUpdate",
+                type: ISortFieldType.NUMERIC
+            }, "Last Updated", (val) => { return new Date(val).toLocaleString()}],
+            [{
+                name: "type",
+                type: ISortFieldType.STRING
+            }, "Type"]
         ];
     }
 
