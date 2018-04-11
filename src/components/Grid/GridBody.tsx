@@ -22,6 +22,10 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
         }
     };
 
+    private _getFilterFunc(sorting?: IFilteringOptions): (a: any, b: any) => number {
+
+    }
+
     private _getCompareFunc(sorting?: ISortOptions): (a: any, b: any) => number {
         let f = sorting.field;
         let type = f.type || ISortFieldType.NUMERIC;

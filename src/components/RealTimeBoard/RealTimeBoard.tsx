@@ -6,6 +6,8 @@ import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
 import {IAppGlobalState} from "../../reducers/initialState";
 import {ISortFieldType, ISortOptions} from "../../actions/sorting";
+import {FilterWidget} from "../Filter/Filter";
+import {SyntheticEvent} from "react";
 
 export interface IRealTimeProps {
     actions?: any;
@@ -25,13 +27,15 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
         super(props, state);
 
         this.start = this.start.bind(this);
+        this.onFilterChange = this.onFilterChange.bind(this);
         this.state = {
             started: false,
             sorting: this.props.sorting,
+            gridDefinition: this._getTableDefinition()
         }
     }
 
-    private _getTableDefinition(a: IAsset): any {
+    private _getTableDefinition(): any {
         return [
             [{
                 name: "id",
@@ -58,7 +62,11 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
 
     componentWillReceiveProps(nextProps: IRealTimeProps) {
         if(nextProps.assets && nextProps.assets.length > 0)
-        this.setState({gridDefinition: this._getTableDefinition(nextProps.assets[0])});
+        this.setState({gridDefinition: this._getTableDefinition()});
+    }
+
+    onFilterChange(event: SyntheticEvent<HTMLElement>): void {
+
     }
 
     start() {
@@ -67,12 +75,13 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
     }
 
     public render(): JSX.Element {
-        let def = this.state.gridDefinition;
+        let { gridDefinition } = this.state;
         return <div>
             <h1>Real Time Board</h1>
             <button onClick={this.start} disabled={this.state.started}>Start</button>
             <div>Number of assets shown: {this.props.assets.length}</div>
-            <Grid definition={this.state.gridDefinition} data={this.props.assets} />
+            <FilterWidget fields={gridDefinition} label="Filter By:" onChange={this.onFilterChange}/>
+            <Grid definition={gridDefinition} data={this.props.assets} />
         </div>;
     }
 }
