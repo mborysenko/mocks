@@ -7,13 +7,14 @@ import {Grid} from "../Grid/Grid";
 import {IAppGlobalState} from "../../reducers/initialState";
 import {ISortFieldType, ISortOptions} from "../../actions/sorting";
 import {FilterWidget} from "../Filter/Filter";
-import {SyntheticEvent} from "react";
+import {IFilteringOptions} from "../../actions/filtering";
 
 export interface IRealTimeProps {
     actions?: any;
     assets?: Array<IAsset>;
     started?: boolean;
     sorting?: ISortOptions;
+    filtering?: IFilteringOptions;
 }
 
 export interface IRealTimeState {
@@ -27,7 +28,6 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
         super(props, state);
 
         this.start = this.start.bind(this);
-        this.onFilterChange = this.onFilterChange.bind(this);
         this.state = {
             started: false,
             sorting: this.props.sorting,
@@ -65,10 +65,6 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
         this.setState({gridDefinition: this._getTableDefinition()});
     }
 
-    onFilterChange(event: SyntheticEvent<HTMLElement>): void {
-
-    }
-
     start() {
         this.props.actions.streamStart();
         this.setState({started: true});
@@ -80,7 +76,7 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
             <h1>Real Time Board</h1>
             <button onClick={this.start} disabled={this.state.started}>Start</button>
             <div>Number of assets shown: {this.props.assets.length}</div>
-            <FilterWidget fields={gridDefinition} label="Filter By:" onChange={this.onFilterChange}/>
+            <FilterWidget fields={gridDefinition} label="Filter By:"/>
             <Grid definition={gridDefinition} data={this.props.assets} />
         </div>;
     }
@@ -94,9 +90,11 @@ function mapDispatchToProps(dispatch): IRealTimeProps {
 
 function mapStateToProps(state: IAppGlobalState, props: IRealTimeProps): IRealTimeProps {
     console.log("SORTING RECEIVED", state.sorting);
+    console.log("FILTERING RECEIVED", state.filtering);
     return {
         assets: state.assets,
-        sorting: state.sorting
+        sorting: state.sorting,
+        filtering: state.filtering
     };
 }
 

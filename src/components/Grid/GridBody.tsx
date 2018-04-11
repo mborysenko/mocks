@@ -4,6 +4,7 @@ import {GridRow} from "./GridRow";
 import {connect} from "react-redux";
 import {IAppGlobalState} from "../../reducers/initialState";
 import {ISortFieldType, ISortingDirection, ISortOptions} from "../../actions/sorting";
+import {IFilteringOptions} from "../../actions/filtering";
 
 export interface IGridBodyProps {
     definition: Array<Array<any>>
@@ -21,10 +22,6 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
             return (a > b) ? -1 : (a < b) ? 1 : 0;
         }
     };
-
-    private _getFilterFunc(sorting?: IFilteringOptions): (a: any, b: any) => number {
-
-    }
 
     private _getCompareFunc(sorting?: ISortOptions): (a: any, b: any) => number {
         let f = sorting.field;

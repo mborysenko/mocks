@@ -1,18 +1,18 @@
 import * as React from "react";
+import {SyntheticEvent} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import {IAppGlobalState} from "../../reducers/initialState";
 import * as FilteringActions from "../../actions/filtering/actions";
 import {IFilteringOptions} from "../../actions/filtering";
-import {ChangeEvent, ReactEventHandler, SyntheticEvent} from "react";
 
 export interface IFilterWidgetProps {
     children?: any,
     actions?: any,
     fields: Array<Array<any>>,
     label: string,
-    onChange: (event: SyntheticEvent<HTMLElement>) => void
+    // onChange: (event: SyntheticEvent<HTMLElement>) => void
 }
 
 export interface IFilterWidgetState {
@@ -29,27 +29,32 @@ export class FilterWidget extends React.Component<IFilterWidgetProps, IFilterWid
         };
 
         this.filter = this.filter.bind(this);
+        this._onValueChange = this._onValueChange.bind(this);
+        this._onFieldChange = this._onFieldChange.bind(this);
     }
 
-    _getCurrentFiltering(): IFilteringOptions {
-        return;
+    _onValueChange(event: SyntheticEvent<HTMLElement>) {
+        this.props.actions.filter({ name: "assetName", value: ""})
+    }
+
+    _onFieldChange(event: SyntheticEvent<HTMLElement>) {
+        this.props.actions.filter({ name: "assetName", value: ""})
     }
 
     public filter() {
-        let s = this._getCurrentFiltering();
-        console.log(s);
-        this.props.actions.sort(s)
+        this.props.actions.filter(null);
     }
 
     render(): JSX.Element {
         return <div className="">
-            <button className="filter" onClick={this.filter}>{this.props.label}</button>
-            <select name="fieldName" id="select-fieldName" onChange={this.props.onChange}>
+            <label className="filter">{this.props.label}</label>
+            <select name="fieldName" id="select-fieldName" onChange={this._onFieldChange}>
                 {this.props.fields.map((f, i) => {
-                    return <option value={f[0]}>{f[0]}</option>
+                    let field = f[0];
+                    return <option key={field.name} value={field.name}>{f[1]}</option>
                 })}
             </select>
-            <input type="text" value=""/>
+            <input type="text" onChange={this._onValueChange} name="filteringValue"/>
         </div>;
     }
 }
