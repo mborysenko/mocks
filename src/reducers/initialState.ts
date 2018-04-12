@@ -18,7 +18,10 @@ const initial: IAppGlobalState = {
         direction: ISortingDirection.ASCENDING
     },
     filtering: {
-        field: {name: ""},
+        field: {
+            name: "",
+            type: ISortFieldType.STRING
+        },
         value: "",
     }
 };

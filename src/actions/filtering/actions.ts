@@ -1,12 +1,13 @@
 import {Action} from "redux";
 import {FILTER_ACTION} from "./constants";
+import {ISortFieldOption} from "../sorting";
 
 export interface IFilteredFieldOption {
     name: string;
 }
 
 export interface IFilteringOptions {
-    field?: IFilteredFieldOption,
+    field?: ISortFieldOption,
     value?: string
 }
 

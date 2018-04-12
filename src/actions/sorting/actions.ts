@@ -4,7 +4,7 @@ import {ISortFieldType, ISortingDirection} from "./API";
 
 export interface ISortFieldOption {
     name: string;
-    type?: ISortFieldType;
+    type: ISortFieldType;
 }
 
 export interface ISortOptions {

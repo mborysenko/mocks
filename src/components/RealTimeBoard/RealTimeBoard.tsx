@@ -89,7 +89,6 @@ function mapDispatchToProps(dispatch): IRealTimeProps {
 }
 
 function mapStateToProps(state: IAppGlobalState, props: IRealTimeProps): IRealTimeProps {
-    console.log("SORTING RECEIVED", state.sorting);
     return {
         assets: state.assets,
         sorting: state.sorting

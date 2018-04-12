@@ -24,14 +24,38 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
         }
     };
 
+    private _filterFuncMap = {
+        [ISortFieldType.STRING]: (v, q) => {
+            return v ? v.toLowerCase().indexOf(q.toLowerCase()) > -1 : true
+        },
+        [ISortFieldType.NUMERIC]: (v, q) => {
+            let bottom = parseInt(q[0]);
+            let top = parseInt(q[1]);
+
+            if((!isNaN(bottom) && bottom) && (!isNaN(top) && top)) {
+                return !isNaN(v) && (v >= bottom && v <= top);
+            }
+
+            if(!isNaN(bottom)) {
+                return !isNaN(v) && v >= bottom;
+            }
+
+            if(!isNaN(top) && top) {
+                return !isNaN(v) && v <= top;
+            }
+
+            return (!isNaN(v) && bottom) && (v >= bottom && v <= top);
+        }
+    };
+
     private _getFilterFunc(options?: IFilteringOptions): (a: any) => boolean {
-        let {name} = options.field;
-        let q = options.value;
+        let {name, type} = options.field;
+        let func = this._filterFuncMap[type];
         return (a) => {
-            let v = a[name];
-            return v ? v.toLowerCase().indexOf(q.toLowerCase()) > -1 : true;
+            return func(a[name], options.value);
         };
     }
+
     private _getCompareFunc(sorting?: ISortOptions): (a: any, b: any) => number {
         let f = sorting.field;
         let key = f.name;
