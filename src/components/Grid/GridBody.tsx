@@ -11,6 +11,7 @@ export interface IGridBodyProps {
     items?: Array<any>,
     children?: any;
     sorting?: ISortOptions;
+    filtering?: IFilteringOptions;
 }
 
 class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
@@ -23,9 +24,16 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
         }
     };
 
+    private _getFilterFunc(options?: IFilteringOptions): (a: any) => boolean {
+        let {name} = options.field;
+        let q = options.value;
+        return (a) => {
+            let v = a[name];
+            return v ? v.toLowerCase().indexOf(q.toLowerCase()) > -1 : true;
+        };
+    }
     private _getCompareFunc(sorting?: ISortOptions): (a: any, b: any) => number {
         let f = sorting.field;
-        let type = f.type || ISortFieldType.NUMERIC;
         let key = f.name;
         let func = this._compareFuncMap[sorting.direction];
 
@@ -37,7 +45,9 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
 
     render(): JSX.Element {
         return <tbody className="grid-body">
-        {this.props.items.sort(this._getCompareFunc(this.props.sorting)).map((a: IAsset) => {
+        {this.props.items
+            .filter(this._getFilterFunc(this.props.filtering))
+            .sort(this._getCompareFunc(this.props.sorting)).map((a: IAsset) => {
             return <GridRow key={a.assetName + a.id + ""} definition={this.props.definition} data={a}/>;
         })}
         </tbody>;
@@ -45,9 +55,12 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
 }
 
 function mapStateToProps(state: IAppGlobalState, props: IGridBodyProps) {
-    let {sorting} = state;
+    let {sorting, filtering} = state;
+    console.log("FILTERING RECEIVED", state.filtering);
+
     return {
-        sorting
+        sorting,
+        filtering
     }
 }
 

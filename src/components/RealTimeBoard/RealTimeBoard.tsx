@@ -6,7 +6,7 @@ import * as StreamActions from "../../actions/stream/actions";
 import {Grid} from "../Grid/Grid";
 import {IAppGlobalState} from "../../reducers/initialState";
 import {ISortFieldType, ISortOptions} from "../../actions/sorting";
-import {FilterWidget} from "../Filter/Filter";
+import {Filter} from "../Filter/Filter";
 import {IFilteringOptions} from "../../actions/filtering";
 
 export interface IRealTimeProps {
@@ -76,7 +76,7 @@ class RealTimeBoardImplementation extends React.Component<IRealTimeProps, IRealT
             <h1>Real Time Board</h1>
             <button onClick={this.start} disabled={this.state.started}>Start</button>
             <div>Number of assets shown: {this.props.assets.length}</div>
-            <FilterWidget fields={gridDefinition} label="Filter By:"/>
+            <Filter fields={gridDefinition} label="Filter By:"/>
             <Grid definition={gridDefinition} data={this.props.assets} />
         </div>;
     }
@@ -90,11 +90,9 @@ function mapDispatchToProps(dispatch): IRealTimeProps {
 
 function mapStateToProps(state: IAppGlobalState, props: IRealTimeProps): IRealTimeProps {
     console.log("SORTING RECEIVED", state.sorting);
-    console.log("FILTERING RECEIVED", state.filtering);
     return {
         assets: state.assets,
-        sorting: state.sorting,
-        filtering: state.filtering
+        sorting: state.sorting
     };
 }
 

@@ -1,4 +1,4 @@
-import {ISortFieldType, ISortingDirection, ISortOptions, SORTING_DIRECTION_ASC} from "../actions/sorting";
+import {ISortFieldType, ISortingDirection, ISortOptions} from "../actions/sorting";
 import {IAsset} from "../api/mock";
 import {IFilteringOptions} from "../actions/filtering";
 
@@ -8,7 +8,7 @@ export interface IAppGlobalState {
     filtering?: IFilteringOptions
 }
 
-const initial: IAppGlobalState =  {
+const initial: IAppGlobalState = {
     assets: [],
     sorting: {
         field: {
@@ -17,7 +17,10 @@ const initial: IAppGlobalState =  {
         },
         direction: ISortingDirection.ASCENDING
     },
-    filtering: null
+    filtering: {
+        field: {name: ""},
+        value: "",
+    }
 };
 
 export {

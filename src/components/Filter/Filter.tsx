@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {IAppGlobalState} from "../../reducers/initialState";
 import * as FilteringActions from "../../actions/filtering/actions";
 import {IFilteringOptions} from "../../actions/filtering";
+import {ISortFieldType} from "../../actions/sorting";
 
 export interface IFilterWidgetProps {
     children?: any,
@@ -20,6 +21,7 @@ export interface IFilterWidgetState {
 }
 
 export class FilterWidget extends React.Component<IFilterWidgetProps, IFilterWidgetState> {
+    private _selectRef: any;
     constructor(props, state) {
         super(props, state);
 
@@ -34,11 +36,41 @@ export class FilterWidget extends React.Component<IFilterWidgetProps, IFilterWid
     }
 
     _onValueChange(event: SyntheticEvent<HTMLElement>) {
-        this.props.actions.filter({ name: "assetName", value: ""})
+        let s = this._selectRef as HTMLSelectElement;
+        let e = event.target as HTMLInputElement;
+        this.setState({
+            filtering: {
+                value: e.value
+            }
+        });
+        let {field} = this.state.filtering;
+        let n = field ? field.name : s.value;
+        this.props.actions.filter({ field: {name: n}, value: e.value})
     }
 
     _onFieldChange(event: SyntheticEvent<HTMLElement>) {
-        this.props.actions.filter({ name: "assetName", value: ""})
+        debugger;
+        let e = event.target as HTMLSelectElement;
+        this.setState({
+            filtering: {
+                field: {
+                    name: e.value
+                }
+            }
+        });
+
+        this.props.actions.filter({ field: {name: e.value}, value: this.state.filtering.value })
+    }
+
+    componentDidMount() {
+        let s = this._selectRef as HTMLSelectElement;
+        this.setState({
+            filtering: {
+                field: {
+                    name: s.value
+                }
+            }
+        });
     }
 
     public filter() {
@@ -48,10 +80,10 @@ export class FilterWidget extends React.Component<IFilterWidgetProps, IFilterWid
     render(): JSX.Element {
         return <div className="">
             <label className="filter">{this.props.label}</label>
-            <select name="fieldName" id="select-fieldName" onChange={this._onFieldChange}>
+            <select ref={(r: any) => this._selectRef = r } name="fieldName" id="select-fieldName" onChange={this._onFieldChange}>
                 {this.props.fields.map((f, i) => {
                     let field = f[0];
-                    return <option key={field.name} value={field.name}>{f[1]}</option>
+                        return (field.type == ISortFieldType.STRING) ? <option key={field.name} value={field.name}>{f[1]}</option> : false;
                 })}
             </select>
             <input type="text" onChange={this._onValueChange} name="filteringValue"/>
@@ -60,6 +92,7 @@ export class FilterWidget extends React.Component<IFilterWidgetProps, IFilterWid
 }
 
 function mapStateToProps(state: IAppGlobalState, props: IFilterWidgetProps) {
+
     const {field, value} = state.filtering;
     return Object.assign({}, {filtering: {field, value}})
 }
