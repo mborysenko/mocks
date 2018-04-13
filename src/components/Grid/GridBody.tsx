@@ -26,7 +26,7 @@ class GridBodyImplementation extends React.Component<IGridBodyProps, {}> {
 
     private _filterFuncMap = {
         [ISortFieldType.STRING]: (v, q) => {
-            return v ? v.toLowerCase().indexOf(q.toLowerCase()) > -1 : true
+            return (v && q) ? v.toLowerCase().indexOf(q.toLowerCase()) > -1 : true
         },
         [ISortFieldType.NUMERIC]: (v, q) => {
             let bottom = parseInt(q[0]);
